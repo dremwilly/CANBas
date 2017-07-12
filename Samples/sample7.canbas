@@ -1,0 +1,16 @@
+# CANBAS clearqueue sample
+# Show how to clear messages in the incomming driver queue 
+# Clear Screen
+clrscrn
+# Move Cursor to Position X=1, Y=2
+gotoxy 1,2
+# Set Color to Green
+setcolor 2
+print "CANBAS Sample - delete incomminq CAN message queue - every Second"
+10 wait 1000
+gotoxy 1,3
+random 15,i
+setcolor i
+print "Now clear the queue"
+can_clearqueue
+goto 10

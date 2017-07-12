@@ -1,0 +1,44 @@
+# Benchtest
+# CANBAS 
+# (c) U.Wilhelm 2013
+# Clear Screen
+clrscrn
+# Move Cursor to Position X=25, Y=1
+gotoxy 1,1
+# Set Color to Green
+setcolor 2
+print "CANBAS Benchmark"
+# Set Color normal back again
+setcolor 0
+b=0
+c=1
+d=2
+messagebox "Start"
+
+tickcount a
+print "Start Counter", a
+
+For i=1 to 100000
+ b=c*d+b	
+Next 
+
+a = tickcount
+print "Counter Step1", a
+
+For i=1 to 200000
+ b=c*d+b	
+Next 
+
+a = tickcount
+print "Counter Step2", a
+
+For i=1 to 200000
+ c=b*d+c	
+Next 
+
+a = tickcount
+print "Counter Step3", a
+
+# use MessageBox to show programm finished
+messagebox "Finished"
+end

@@ -1,0 +1,61 @@
+# CANBAS Sample 3
+# Show how to wait for a specific CAN Frame
+# using the simple CANBAS Scripting language
+# U.Wilhelm 2013
+
+# Clear Screen
+clrscrn
+# Move Cursor to Position X=25, Y=1
+gotoxy 22,1
+# Set Color to Green
+setcolor 2
+print "CANBAS Sample 3 - waiting for a specific CAN Frames"
+# Set Color normal back again
+setcolor 0
+50 gotoxy 0,3
+print "Now wait max. 2500ms for ID 0x100"
+print "                          " 
+# Wait 2500ms (2.5 Sec) for ID  0x100
+# if the ID receive within this time the DLC store the real DLC (>0)
+# If the ID did not receive within this time the DLC, and all other Data is -1
+CAN_WAITID 2500,0x100,l,m,n,o,p,q,r,s,t,u
+# print l;m;n;o;p;q;r;s;t;u
+
+
+# DLC is a NOT -1 -Message received
+IF l >-1 Then GOSUB 100
+
+# DLC is a not a real Value - Message not received
+IF l <0 Then GOSUB 110
+
+# Loop until CTR-C Pressed 
+Goto 50
+
+# use MessageBox to show programm finished
+# This part will never be reached...because of GOTO 50
+messagebox "Finished"
+end
+
+100 gotoxy 0,5
+print "                                   " 
+print "                                   " 
+gotoxy 0,15
+print "ID 0x100 received"
+B = 0
+A = A + 1
+if A>65535 Then A=0
+print "Send ID 0x005 with DLC 8 and DataCounter in Byte 8: ", A
+CAN_WRITE 0x5,8,0,1,2,3,4,5,6,7,A
+RETURN
+
+110 gotoxy 0,15
+print "                                  " 
+print "                                                                   " 
+gotoxy 0,5
+A = 0
+B = B + 1
+if B>65535 Then B=0
+print "ID 0x100 not received - counter: ", B
+print "Send ID 0x006 with DLC 2" 
+CAN_WRITE 0x6,2,0,255,255,0,0,0,0,0,0
+RETURN

@@ -1,0 +1,65 @@
+# CANBAS Sample 2
+# Show how to send and read CAN Frames
+# using the simple CANBAS Scripting language
+# U.Wilhelm 2013
+
+# Clear Screen
+clrscrn
+# Move Cursor to Position X=25, Y=1
+gotoxy 23,1
+# Set Color to Green
+setcolor 2
+print "CANBAS Sample 2 - sending an dreading  CAN Frames"
+# Set Color normal back again
+setcolor 0
+# The ID 0x100
+a=0x100
+# with 8 DataBytes 
+b=8
+# and a STD 11Bit Message
+c=0
+# Data are: 1,2,3,4,5,6,7,8
+# now write to CAN Buffer in CAN Driver
+CAN_WRITE a,b,c,1,2,3,4,5,6,7,8
+print "send CAN 0x100"
+# now wait 20ms
+wait 20
+
+# send 2000 Frames with a 5ms delay and change Data
+print "now send a sequenze with ID 0x200"
+FOR i=0 to 1999
+	CAN_WRITE 0x200,b,c,i,i+1,i+2,i+3,i+4,i+5,i+6,i+7
+    a=a+1
+	# Read CAN Message from bus in a SUB
+	GOSUB 100
+	wait 5
+NEXT 
+
+# now wait another 500ms to be sure the CAN Data could be send
+wait 500
+setcolor 0
+print "Finished, Frame counter:", i
+# use MessageBox to show programm finished
+messagebox "Sample 2 is Finished"
+end
+
+# The Receive SUB
+100 
+# Read from the CAN Buffer of the Driver
+# ID, DLC, MsgTYpe, DATA 0-8
+CAN_READ g,h,j,k,l,m,n,o,p,q,r
+# if ID is less 0 - no real CAN Data
+if g<0 then GOSUB 200
+gotoxy 1,5
+if g>0 then print "Received ",g;h;i;k;l;m;n;o;p;q
+RETURN
+
+# The Error Reiceive SUB
+200
+gotoxy 1,6
+setcolor 2
+print "Receive Error: ", k
+gotoxy 1,7
+setcolor 1
+CAN_GETERRORTEXT k
+RETURN

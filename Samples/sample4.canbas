@@ -1,0 +1,38 @@
+# CANBAS Sample 3
+# U.Wilhelm 2013
+# Show how to wait for a specificCAN Frame
+# Clear Screen
+clrscrn
+# Move Cursor to Position X=25, Y=1
+gotoxy 22,1
+# Set Color to Green
+setcolor 2
+print "CANBAS Sample 3 - waiting for a specific CAN Frames"
+# Set Color normal back again
+setcolor 0
+print "Now wait max. 5000ms for ID 0x100"
+# Wait 5000ms (5Sec) for ID  0x100
+# if the ID receive within this time the DLC store the real DLC (>0)
+# If the ID did not receive within this time the DLC, and all other Data is -1
+CAN_WAITID 5000,0x100,l,m,n,o,p,q,r,s,t,u
+print l;m;n;o;p;q;r;s;t;u
+
+# DLC is a real Value - Message received
+IF l >0 Then GOSUB 100
+
+# DLC is a not a real Value - Message not received
+IF l <0 Then GOSUB 110
+
+# use MessageBox to show programm finished
+messagebox "Finished"
+end
+
+100 print "ID 0x100 received"
+print "Send ID 0x005 with DLC 8" 
+CAN_WRITE 0x5,8,0,1,2,3,4,5,6,7,8
+RETURN
+
+110 print "ID 0x100 not received"
+print "Send ID 0x006 with DLC 2" 
+CAN_WRITE 0x6,2,0,255,255,0,0,0,0,0,0
+RETURN

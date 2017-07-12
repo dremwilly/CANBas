@@ -1,0 +1,27 @@
+# short
+print a
+# and
+print c*3
+#Simple
+print 3*3
+# Sample
+print "los gehts"
+
+for i=0 to 100
+  gosub 100
+next
+end
+
+
+
+100 #Mach mal
+random 10, a
+random 100, b 
+random 1, c
+random 555, d
+
+print "a: ",a
+print "b: ",b
+print "c: ",c
+print "d: ",d
+return

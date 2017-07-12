@@ -1,0 +1,66 @@
+# U.Wilhelm 2013
+A=0x01
+B=0x02
+C=0x03
+D=A&B
+E=A|B
+F=A~B+5*D&4
+gotoxy 1,1
+print "D:",d
+gotoxy 10,10
+print "E:",e
+gotoxy 15,15
+print "F:",f
+gotoxy 20,20
+print "Done!"
+# Write Data
+CAN_WRITE 0x103,6,0,1,2,3,4,5,6
+CAN_WRITE 0x102,8,2,1,2,3,4,5,6,7,8
+SETCOLOR 2
+#READ CAN Data ID, DLC, MSGTYPE, DATA0 to DATA1
+CAN_READ I,D,T,a,b,c,d,e,f,g,h
+IF I = 0x100 then GOSUB 100
+PRINT 0x300
+a=0x100
+b=0x10*10
+PRINT "This program demonstrates nested GOSUBs."
+PRINT 0x12d
+INPUT "enter a number: ", I
+MESSAGEBOX I*5; "Hallo";a,b; I*5; A*2
+WAIT 0x12
+WAIT I
+gosub 200
+END
+
+GOSUB 150
+WAIT I+100
+GOSUB 100
+PRINT "Recived ID 100"
+WAIT D*I
+END
+
+#Label 100
+#oder auch 200
+
+100 clrscrn
+PRINT "Recived ID 100"
+WAIT D*I
+FOR T = 1 TO D
+      X = X + I
+      # das ist ein Kommentar
+      GOSUB 150
+ NEXT
+RETURN
+
+150 PRINT X;
+  CAN_WRITE 0x101,8,0,1,2,3,4,5,6,7,8 
+  WAIT 5
+RETURN
+
+200 FOR I=0 TO 15
+ SETCOLOR I
+ print "Hallo Farbe ", I
+NEXT
+SETCOLOR 0
+print "Return now..."
+RETURN

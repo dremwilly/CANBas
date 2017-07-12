@@ -1,0 +1,23 @@
+# CANBAS Color Sample
+# Show how to use CANBAS without CAN 
+# using the simple CANBAS Scripting language
+# (c) U.Wilhelm 2013
+10 clrscrn	
+statusline 1
+# wait 1500
+statusline 0
+clrscrn		 
+gotoxy 34,0
+for a=1 to 500
+ print "CAN Bas Test" 
+ i=0 
+ for x=30 to 50  
+  for y=10 to 14				
+    random 15,i
+    setcolor i
+    gotoxy x, y
+    print "#"
+  next
+ next	 
+ next
+end

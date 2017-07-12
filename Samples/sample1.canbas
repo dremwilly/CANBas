@@ -1,0 +1,44 @@
+# CANBAS Sample 1
+# Show how to send a CAN Frame
+# using the simple CANBAS Scripting language
+# U.Wilhelm 2013
+
+# Clear Screen
+clrscrn
+# Move Cursor to Position X=25, Y=1
+gotoxy 25,1
+# Set Color to Green
+setcolor 2
+print "CANBAS Sample 1 - sending CAN Frames"
+# Set Color normal back again
+setcolor 0
+# The ID 0x100
+a=0x100
+# with 8 DataBytes 
+b=8
+# and a STD 11Bit Message
+c=0
+# CAN Data Bytes 11,22,33,44,55,66,77,88
+# now write to CAN Buffer in CAN Driver
+CAN_WRITE a,b,c,11,22,33,44,55,66,77,88
+print "send CAN 0x100"
+# now wait 20ms
+wait 20
+
+# and send 100 Frames with a 25ms sequenz based an 0x200 increment by one
+print "now send a sequenze...starting with ID 0x200"
+FOR j=0 to 10
+    a=0x200
+    FOR i=0 to 10
+        CAN_WRITE a,b,c,i,i+1,i+2,i+3,i+4,i+5,i+6,i+7
+        a=a+1
+    NEXT 
+    wait 25
+NEXT
+
+# now wait another 500ms to be sure the CAN Data could be send
+wait 500
+print "Finished, Frame counter:", i*10
+# use MessageBox to show programm finished
+messagebox "Finished"
+end
